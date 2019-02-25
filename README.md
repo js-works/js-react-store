@@ -15,26 +15,12 @@ npm install --save js-react-store
 ```tsx
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, useStore } from 'js-react-store'
+import { initStore, useStore } from 'js-react-store'
 
 const { useCallback } = React
 
-type CounterStore = { 
-  count: number,
-  increment(): void,
-  decrement(): void
-}
-
-const createCounterStore = () =>
-  createStore<CounterStore>((self, update) => {
-  
-  function increase(delta: number) {
-    update(() => {
-      self.count += delta
-    })
-  }
-
-  return {
+function createStore() { 
+  const [self, update] = initStore({
     count: initialValue,
 
     increment() {
@@ -44,6 +30,16 @@ const createCounterStore = () =>
     decrement() {
       increase(-1)
     }
+  })
+
+  return self
+  
+  // private
+  
+  function increase(delta: number) {
+    update(() => {
+      self.count += delta
+    })
   }
 })
 

@@ -1,8 +1,8 @@
-export default function createStore<T>(init: (store: T, update: (process: () => void) => void) => T): T {
+export default function initStore<T extends object>(base: T): [T, (f: () => void) => void] {
   let
     observers: ((store: T) => void)[] = [] as any,
     timeout: any = null
-   
+
   class Store {
     static __subscribe(observer: (store: T) => {}) {
       const newObserver = observer.bind(null)
@@ -31,5 +31,7 @@ export default function createStore<T>(init: (store: T, update: (process: () => 
       }
     }
  
-  return Object.assign(self, init(self as any, update))
+  Object.assign(self, base)
+
+  return [self, update]
 }

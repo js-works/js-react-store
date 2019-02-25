@@ -1,9 +1,9 @@
-import createStore from './api/createStore'
+import initStore from './api/initStore'
 import observeStore from './api/observeStore' 
 import useStore from './api/useStore'
 
 export {
-  createStore,
+  initStore,
   observeStore,
   useStore
 }

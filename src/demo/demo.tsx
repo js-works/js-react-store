@@ -3,24 +3,10 @@ import ReactDOM from 'react-dom'
 
 const { useCallback } = React
 
-import { createStore, useStore } from '../main/js-react-store'
+import { initStore, useStore } from '../main/js-react-store'
 
-type CounterStore = { 
-  count: number,
-  increment(): void,
-  decrement(): void
-}
-
-const createCounterStore = (initialValue: number) =>
-  createStore<CounterStore>((self, update) => {
-  
-  function increase(delta: number) {
-    update(() => {
-      self.count += delta
-    })
-  }
-
-  return {
+function createStore(initialValue: number) {
+  const [self, update] = initStore({
     count: initialValue,
 
     increment() {
@@ -30,12 +16,24 @@ const createCounterStore = (initialValue: number) =>
     decrement() {
       increase(-1)
     }
+  })
+ 
+  return self
+
+  // --- private functions ------------------------------------------
+
+  function increase(delta: number) {
+    update(() => {
+      self.count += delta
+    })
   }
-})
+
+  return self
+}
 
 function Counter({ initialValue = 0, label = 'Counter'}) {
   const
-    store = useStore(() => createCounterStore(initialValue)),
+    store = useStore(() => createStore(initialValue)),
     increment = useCallback(() => store.increment(), []),
     decrement = useCallback(() => store.decrement(), [])
 
