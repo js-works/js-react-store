@@ -1,0 +1,83 @@
+{
+  "name": "js-react-store",
+  "version": "0.0.1",
+  "license": "LGPL-3.0",
+  "homepage": "https://github.com/js-works/js-react-store",
+  "main": "index.js",
+  "types": "dist/types/js-react-store.d.ts",
+  "module": "dist/js-react-store.esm.production.js",
+  "unpkg": "dist/js-react-store.umd.production.js",
+  "jsdelivr": "dist/js-react-store.umd.production.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/js-works/js-react-store.git"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^11.9.5",
+    "@types/react": "^16.8.4",
+    "@types/react-dom": "^16.8.2",
+    "bestzip": "^2.1.2",
+    "chai": "~4.2.0",
+    "copyfiles": "^2.1.0",
+    "coveralls": "^3.0.2",
+    "cross-conf-env": "^1.1.2",
+    "crypto.js": "^1.1.6",
+    "mocha": "^6.0.1",
+    "nyc": "^13.1.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "rollup": "^1.1.0",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-gzip": "^2.2.0",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-terser": "^4.0.2",
+    "rollup-plugin-tslint": "^0.2.1",
+    "rollup-plugin-typescript2": "^0.19.2",
+    "rollup-plugin-uglify": "^6.0.1",
+    "rollup-plugin-uglify-es": "0.0.1",
+    "shx": "^0.3.2",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "typedoc": "^0.14.1",
+    "typescript": "^3.2.2"
+  },
+  "scripts": {
+    "clean": "shx rm -rf ./build ./dist ./coverage",
+    "build": "rollup --config rollup.config.js && tsc -d --emitDeclarationOnly --declarationDir dist/types",
+    "test": "nyc mocha -r ts-node/register src/test/**/*.ts",
+    "test-watch": "mocha -w -r ts-node/register src/test/**/*.ts",
+    "demo": "rollup --c rollup.demo.config.js -w",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "docs": "shx rm -rf ./dist/docs && \"node_modules/.bin/cross-conf-env\" typedoc --options ./typedoc.json src/main/api/ -name \"js-react-store vnpm_package_version\"",
+    "zipsource": "shx rm -rf ./build/source && shx mkdir -p ./build/source && copyfiles -a ./* ./build/source && shx cp -r ./src ./build/source && shx mkdir -p ./dist/source && cd build/source && bestzip ../../dist/source/source.zip . && cd ../..",
+    "dist": "npm run clean && npm run test && npm run build && npm run docs && npm run zipsource"
+  },
+  "nyc": {
+    "temp-directory": "./coverage/.nyc_output",
+    "include": [
+      "src/main"
+    ],
+    "exclude": [
+      "src/main/js-react-store.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "all": true
+  },
+  "dependencies": {}
+}
