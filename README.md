@@ -25,7 +25,7 @@ type CounterStore = {
   decrement(): void
 }
 
-const creatCounterStore = () =>
+const createCounterStore = () =>
   createStore<CounterStore>((self, update) => {
   
   function increase(delta: number) {
