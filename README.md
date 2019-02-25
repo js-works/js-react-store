@@ -32,16 +32,15 @@ function createStore() {
     }
   })
 
-  return self
-  
   // private
-  
   function increase(delta: number) {
     update(() => {
       self.count += delta
     })
   }
-})
+  
+  return self
+}
 
 function Counter() {
   const
