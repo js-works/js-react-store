@@ -11,7 +11,6 @@ function useStore<T>(create: () => T): T {
 
     useEffect(() => {
       const unsubscribe = observeStore(store, () => {
-          console.log(store)
         set([store])
       })
 
