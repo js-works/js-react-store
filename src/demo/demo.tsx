@@ -11,27 +11,27 @@ type CounterStore = {
   decrement(): void
 }
 
-function createCounterStore(initialValue: number) {
-  return createStore<CounterStore>((self, update) => {
-    function increase(delta: number) {
-      update(() => {
-        self.count += delta
-      })
+const createCounterStore = (initialValue: number) =>
+  createStore<CounterStore>((self, update) => {
+  
+  function increase(delta: number) {
+    update(() => {
+      self.count += delta
+    })
+  }
+
+  return {
+    count: initialValue,
+
+    increment() {
+      increase(1)
+    },
+
+    decrement() {
+      increase(-1)
     }
-
-    return {
-      count: initialValue,
-
-      increment() {
-        increase(1)
-      },
-
-      decrement() {
-        increase(-1)
-      }
-    }
-  })
-}
+  }
+})
 
 function Counter({ initialValue = 0, label = 'Counter'}) {
   const
