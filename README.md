@@ -6,7 +6,6 @@ Very small store library to be used in React - mainly to be used locally within 
 [![npm version](https://img.shields.io/npm/v/js-react-store.svg?style=flat)](https://www.npmjs.com/package/js-react-store)
 [![Build status](https://travis-ci.com/js-works/js-react-store.svg)](https://travis-ci.org/js-works/js-react-store)
 [![Coverage status](https://coveralls.io/repos/github/js-works/js-react-store/badge.svg?branch=master)](https://coveralls.io/github/js-works/js-react-store?branch=master)
-![Dependencies](https://img.shields.io/badge/dependencies-none-green.svg?style=flat)
 
 ## Installation
 
@@ -17,6 +16,8 @@ npm install --save js-react-store
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, useStore } from 'js-react-store'
+
+const { useCallback } = React
 
 type CounterStore = { 
   count: number,
