@@ -1,7 +1,7 @@
-import * as React from 'react' // TODO
+import React from 'react'
 import observeStore from './observeStore'
 
-const { useEffect, useState } = React as any // TODO
+const { useEffect, useState } = React
 
 function useStore<T>(create: () => T): T {
    const

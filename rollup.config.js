@@ -1,5 +1,6 @@
 //import { tslint } from 'rollup-plugin-tslint'
 import resolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
 import replace from 'rollup-plugin-replace'
 import typescript from 'rollup-plugin-typescript2'
 import { uglify as uglifyJS } from 'rollup-plugin-uglify'
@@ -32,18 +33,15 @@ function createConfig(moduleFormat, productive) {
       sourcemap: productive ? false : 'inline',
 
       globals: {
-        'js-react-store': 'jsSpec',
+        react: 'React'
       }
     },
 
-    external: [],
+    external: ['react'],
 
     plugins: [
-      resolve({
-        jsnext: true,
-        main: true,
-        browser: true,
-      }),
+      resolve(),
+      commonjs(),
       // tslint({
       //}),
       replace({
