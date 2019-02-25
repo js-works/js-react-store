@@ -45,7 +45,7 @@ function createStore() {
 
 function Counter() {
   const
-    store = useStore(createCounterStore),
+    store = useStore(createStore),
     increment = useCallback(() => store.increment(), []),
     decrement = useCallback(() => store.decrement(), [])
 
