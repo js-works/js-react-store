@@ -7,16 +7,14 @@ import { initES5Store, initStore, useStore } from '../main/js-react-store'
 
 function createStore(initialValue: number) {
   const [self] = initStore({
-    count: initialValue,
+    count: [initialValue],
 
     increment() {
-      self.count++
-      console.log('++') 
+      self.count[0]++
     },
 
     decrement() {
-      self.count--
-      console.log('--') 
+      self.count[0]--
     }
   })
  

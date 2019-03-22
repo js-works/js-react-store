@@ -40,15 +40,18 @@ export default function initStore<T extends object>(base: T): [T, (f: () => void
 
   Object.assign(self, base)
 
+  let isFirstTime = true
+
   // TODO - optimize
   observe(() => {
-    for (const key in self) {
-      self[key]
-    }
+    // this is really ugly - sorry (wil be fixed soon)
+    JSON.stringify(self)
 
-    if (!timeout) {
+    if (!isFirstTime && !timeout) {
       emit()
     }
+
+    isFirstTime = false
   })
 
   return [self, update]
