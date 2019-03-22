@@ -3,10 +3,28 @@ import ReactDOM from 'react-dom'
 
 const { useCallback } = React
 
-import { initStore, useStore } from '../main/js-react-store'
+import { initES5Store, initStore, useStore } from '../main/js-react-store'
 
 function createStore(initialValue: number) {
-  const [self, update] = initStore({
+  const [self] = initStore({
+    count: initialValue,
+
+    increment() {
+      self.count++
+      console.log('++') 
+    },
+
+    decrement() {
+      self.count--
+      console.log('--') 
+    }
+  })
+ 
+  return self
+}
+
+function createES5Store(initialValue: number) {
+  const [self, update] = initES5Store({
     count: initialValue,
 
     increment() {
@@ -18,8 +36,6 @@ function createStore(initialValue: number) {
     }
   })
  
-  return self
-
   // --- private functions ------------------------------------------
 
   function increase(delta: number) {
@@ -28,21 +44,39 @@ function createStore(initialValue: number) {
     })
   }
 
+  // --- return -----------------------------------------------------
+
   return self
 }
 
 function Counter({ initialValue = 0, label = 'Counter'}) {
   const
     store = useStore(() => createStore(initialValue)),
-    increment = useCallback(() => store.increment(), []),
-    decrement = useCallback(() => store.decrement(), [])
+    onIncrement = useCallback(() => store.increment(), []),
+    onDecrement = useCallback(() => store.decrement(), [])
 
   return (
     <div>
       <label>{` ${label}: `}</label>
-      <button onClick={decrement}>-</button>
+      <button onClick={onDecrement}>-</button>
       {` ${store.count} `}
-      <button onClick={increment}>+</button>
+      <button onClick={onIncrement}>+</button>
+    </div>
+  )
+}
+
+function ES5Counter({ initialValue = 0, label = 'Counter'}) {
+  const
+    store = useStore(() => createES5Store(initialValue)),
+    onIncrement = useCallback(() => store.increment(), []),
+    onDecrement = useCallback(() => store.decrement(), [])
+
+  return (
+    <div>
+      <label>{` ${label}: `}</label>
+      <button onClick={onDecrement}>-</button>
+      {` ${store.count} `}
+      <button onClick={onIncrement}>+</button>
     </div>
   )
 }
@@ -50,8 +84,12 @@ function Counter({ initialValue = 0, label = 'Counter'}) {
 function Demo() {
   return (
     <div>
-      <h3>js-react-store demo</h3>
+      <h3>Modern Store (ECMAScript ^2015 - proxy based)</h3>
       <Counter/>
+      <br/>
+      <br/>
+      <h3>Classic Store (ECMAScript 5)</h3>
+      <ES5Counter/>
     </div>
   )
 }

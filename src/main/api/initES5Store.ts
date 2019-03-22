@@ -1,6 +1,4 @@
-import { observable, observe } from '@nx-js/observer-util'
-
-export default function initStore<T extends object>(base: T): [T, (f: () => void) => void] {
+export default function initES5Store<T extends object>(base: T): [T, (f: () => void) => void] {
   let
     observers: ((store: T) => void)[] = [] as any,
     timeout: any = null
@@ -17,14 +15,11 @@ export default function initStore<T extends object>(base: T): [T, (f: () => void
   }
 
   const
-    self: T = observable(new Store() as T),
+    self: T = new Store() as T,
 
     update = (f: () => void) => {
       f()
-      emit()
-    },
-
-    emit = () => {
+      
       if (!timeout) {
         timeout = setTimeout(() => {
           timeout = null
@@ -35,21 +30,8 @@ export default function initStore<T extends object>(base: T): [T, (f: () => void
         }, 0)
       }
     }
-
-    
-
+ 
   Object.assign(self, base)
-
-  // TODO - optimize
-  observe(() => {
-    for (const key in self) {
-      self[key]
-    }
-
-    if (!timeout) {
-      emit()
-    }
-  })
 
   return [self, update]
 }
